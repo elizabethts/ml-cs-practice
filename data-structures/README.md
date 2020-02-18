@@ -26,6 +26,11 @@ The processor on your computer is also a shared resource. A lot of running progr
 
 Queues can be used to simulate wait in a number of scenarios 
 
+#### Resources
+- https://www.youtube.com/watch?v=XuCbpw6Bj1U&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=22
+- https://www.youtube.com/watch?v=okr-XE8yTO8&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=23 (haven't watched)
+
+
 ## Stacks
 
 #### Stack ADT
@@ -52,9 +57,12 @@ constant time or O(1)
 
 Stack data structure is used for the execution of function calls in a program. Stack is also used for recursion, which is a chain of function calls - it’s just that all the calls are to the same function. 
 
-Another application of stack is ... we can use it to implement an undo operation in an editor. 
+Another application of stack is that we can use it to implement an undo operation in an editor. 
 
 Stack is used in a number of important algorithms. For example, a complainer verifies whether parentheses in a source code are valid or not using stack data structure. Corresponding to each opening curly brace, or each opening parentheses in a source code, there must be a closing parentheses at the appropriate position. And if the parentheses in a source code are not put properly, the compiler should throw an error and this check can be performed using a stack 
+
+#### Resources
+- https://www.youtube.com/watch?v=F1F2imiOJfk&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=14
 
 
 ## Linked lists 
@@ -67,5 +75,25 @@ Every node has 2 parts: data and a pointer to the next node
 - find(data) - Start at the root. Compare the value that we’re searching for to the data in the first node, then go to the next until we find the matching value and return that value. If the value is not in the list, return null or false.
 - add(data) - If we want to add data, we create a new node, and change the next pointer so that it points to the root node, and then we’ll change the root node so that it points to our new node
 - remove(data) - First we have to find the data to remove. We’ll start at the first node and make the comparison. If it’s not equal, we go to the next node. Once we’ve found the correct node, we can change the next pointer in the previous node to the next node of the node you’re trying to remove. The node you’re trying to delete is still there but it’s excluded from the linked list 
+
+#### Advantages of linked lists 
+- insertions and deletions are quick (constant time if appending an element to beginning of list, linear time if appending to end of list)
+
+#### Disadvantages of linked lists
+- slow to get to nth element (linear time)
+
+
+#### Doubly linked list 
+A **doubly linked** list is just like a singly linked list but in addition to each element having a link to the next element, each element also links to the previous element 
+
+#### Resources
+- https://www.youtube.com/watch?v=Ast5sKQXxEU
+- https://www.youtube.com/watch?v=njTh_OwMljA
+- https://www.youtube.com/watch?v=A5_XdiK4J8A&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=24 (haven't watched)
+- https://www.youtube.com/watch?v=MuwxQ2IB8lQ&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=16 (haven't watched)
+
+
+#### LS Lecture
+https://www.youtube.com/watch?v=S49kli7DOw4&feature=youtu.be
 
 
