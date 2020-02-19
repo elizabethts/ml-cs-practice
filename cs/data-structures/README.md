@@ -86,11 +86,33 @@ Every node has 2 parts: data and a pointer to the next node
 #### Doubly linked list 
 A **doubly linked** list is just like a singly linked list but in addition to each element having a link to the next element, each element also links to the previous element 
 
+#### The node has three fields:
+- prev
+- data
+- next
+
+#### Operations
+- insertion
+- deletion
+- traversal
+
+
+#### What are the advantages or use cases of a doubly linked list?
+- Forward and reverse lookup 
+- Deletion is easier. In a singly liked list, to delete a node, you will need two pointers - one to the node to be deleted and one to the previous node. In a doubly linked list, we can delete a node using only one pointer - a pointer to the node to be deleted 
+
+#### What are the disadvantages of a doubly linked list?
+- Requires extra memory for the pointer to previous node
+- Need to reset more pointers when inserting or deleting than in a singly linked list
+
+
 #### Resources
 - https://www.youtube.com/watch?v=Ast5sKQXxEU
 - https://www.youtube.com/watch?v=njTh_OwMljA
-- https://www.youtube.com/watch?v=A5_XdiK4J8A&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=24 (haven't watched)
-- https://www.youtube.com/watch?v=MuwxQ2IB8lQ&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=16 (haven't watched)
+- https://www.youtube.com/watch?v=JdQeNxWCguQ&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P
+- https://www.youtube.com/watch?v=VOQNf1VxU3Q&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P
+- https://www.youtube.com/watch?v=A5_XdiK4J8A&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P (haven't watched)
+- https://www.youtube.com/watch?v=MuwxQ2IB8lQ&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P (haven't watched)
 
 
 #### LS Lecture
