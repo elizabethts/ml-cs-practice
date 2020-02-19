@@ -1,27 +1,47 @@
-Ridge Regression
+Decision Trees
 
-![Ridge Regression](/machine-learning/elliot/Ridge_Regression_print.png)
-Source: Chris Albon's flashcards
 
--	The main idea behind ridge regression is we introduce a small amount of bias when fitting the data, so we have a drop in variance (don’t over-fit)
--	With a worse fit, ridge regression can provide better long-term predictions
--	How does it do this?
-  - OLS minimizes sum of squared residuals
-  - Ridge minimizes that and [lambda x slope^2]
-  - [lambda x slope^2] is a penalty applied to the traditional OLS method. This is the small amount of bias introduced
--	How do we determine lambda?
-  - A larger lambda means a less sensitive ridge regression (slope is flatter)
-  - We just try a bunch of lambda values and use cross validation to determine the one with lowest variance
--	Does this work with discrete variables??
-  - Yes, a little trickier…
--	We can also apply this to logistic regression: it optimizes the sum of the likelihoods instead of SSRs because logistic regression is solved using maximum likelihood
--	Ridge regression is also great in datasets where the # of parameters exceeds data points (e.g. 10,000 parameters, 500 data points)
-  - Again, it will be able to do this with cross validation and the ridge penalty that optimizes for smaller parameter values
-  - It is able to work well on smaller sample sizes as it makes the predictions less sensitive to the training data
+#### What are the basic concepts? What problem does it solve?
+Intuition:  
+- DTs are built from yes/no questions
+-	Classify until no more
+- Breaks down a dataset into smaller subsets
+
+#### What are the assumptions?
+-	DTs are nonparametric
+- Pick features based on lowest RSS or Gini impurity
+- Stop splitting by setting a threshold for depth of tree
+- Deal with overfitting by pruning (reduces sections of the tree that provide little predictive power)
+- Evaluation:
+  - Gini index: measure of node purity
+  - Entropy
+
+#### What are the steps of the algorithm?
+-	Top of the tree is called the Root, others are called Internal Nodes, the ends are called Leafs
+    - When none of the leaf nodes classify 100% correctly, they are considered impure
+    -	To determine which separation is best, we need to compare impurity
+      - One popular way is Gini impurity: weighted average of impurities for the leaf nodes (lower is better)
+      - So it optimizes for lowest Gini impurity scores for leaf nodes (if the node has the lowest score, no point separating anymore, ends there)
+      - For numeric data (e.g. weight), works the same and the yes/no is < or > a weight cutoff
+      - For ranked data (e.g. ordinal data), use similar cut-offs <=
+
+#### What is the cost function?
+Regression:  
+- minimize RSS
+
+Classification:  
+- minimize classification error rate (Gini impurity)
+
+#### What are the advantages/disadvantages?
+Pros:  
+- Easy to interpret
+- Can handle nonlinear relationships
+- Performs well on unprocessed data (e.g. no normalizing)
+
+Cons:  
+- Relatively inaccurate compared to other algorithms, better to use a RF
 
 Notes from:  
-[StatQuest: Ridge Regression]( https://www.youtube.com/watch?v=Q81RR3yKn30)
+[StatQuest: Decision Trees]( https://www.youtube.com/watch?v=7VeUPuFGJHk)
 
-
-Code example:  
-[Chris Albon](https://chrisalbon.com/machine_learning/linear_regression/ridge_regression/)
+[Cracking the DS phone interview](https://medium.com/@bruceyanghy/crack-the-machine-learning-phone-interview-guide-9e4dc316f65b)
