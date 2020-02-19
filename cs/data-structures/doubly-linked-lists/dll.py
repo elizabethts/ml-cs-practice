@@ -191,13 +191,10 @@ class DoublyLinkedList:
             # if cur_prev != None:
             #     self.tail.next = None
 
-
             if cur_prev == None:
                 print('update head to none')
 
                 self.head = None
-
-
 
             # decrement length
             self.length -= 1
@@ -217,7 +214,6 @@ class DoublyLinkedList:
 
         self.add_to_head(node)
         print('node added to front')
-
 
 
     """Removes the input node from its current spot in the
