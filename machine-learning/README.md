@@ -1,5 +1,6 @@
 ## Machine Learning Algorithms
 
+Name files with name_algorithm.md when making a pull request.
 
 #### Linear Regression
 
