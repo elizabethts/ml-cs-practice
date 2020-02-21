@@ -4,9 +4,12 @@ Name files with name_algorithm.md when making a pull request.
 
 #### Linear Regression
 
+[han](han_notes.pdf)
+
 [Hursh](hurshd_lr.md)
 
 #### Regression with Lasso
+[han](han_notes.pdf)
 
 #### Regression with Ridge
 
@@ -17,6 +20,8 @@ Name files with name_algorithm.md when making a pull request.
 #### Logistic Regression
 
 [Hursh](hurshd_logit_reg.md)
+
+[han](han_notes.pdf)
 
 #### Naïve Bayes
 
@@ -34,7 +39,11 @@ Name files with name_algorithm.md when making a pull request.
 
 #### Gradient Boosting
 
+[han](han_notes.pdf)
+
 #### SVM (Support Vector Machine)
+
+[han](han_notes.pdf)
 
 #### PCA (Principal Component Analysis)
 
