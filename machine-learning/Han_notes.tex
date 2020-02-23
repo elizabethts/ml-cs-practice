@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[margin=1in]{geometry}
 \usepackage{graphicx}
+\usepackage[export]{adjustbox}
 
 \title{Machine Learning Algorithms Overview}
 \author{Hanchung Lee}
@@ -11,6 +12,89 @@
 
 \maketitle
 
+\section{Linear Regression}
+
+\noindent
+\begin{enumerate}
+    \item \textbf{What are the basic concepts? What problem does it solve?}
+    \noindent 
+    \smallbreak
+    Linear Regression, in essence, is trying to fit a hyperplane through the data points that minimizes the sum of the distances of all the points to that hyperplane. That hyperplane is then used to predict the location of new data points. In other words, linear regression is a model $\emph{f} : \mathbb{R}^{d+1} \rightarrow \mathbb{R}$ for a given data pair $(x, y)$ where $x \in \mathbb{R}^{d+1}$ and $y \in \mathbb{R}$. It is if if the function \emph{f} is linear, with weights $w$ of the model is the parameters to be learned. Since regression is a mapping to $\mathbb{R}$, it can be used to estimate a value given a set of inputs $x$.
+    
+    \item \textbf{What are the assumptions?}
+    \noindent 
+    \smallbreak
+    Regression assumes that the output $y$ is linearly dependent on $x$. However, it will be linear dependent as long as $w$ is linear. It also assumes error term is a normally distributed random variable.
+    
+    \item \textbf{What are the steps of the algorithm?}
+    \noindent 
+    \smallbreak
+    We model linear regression problem $\mathbf{y} = \mathbf{X}\mathbf{w} + \mathbf{b}$ using both least squares (LS) or maximum likelihood (ML) solutions:
+    $$\mathbf{LS}: \; arg \min_{w} \left\|y - \mathbf{X}w\right\|_{2}^{2}$$
+    $$\mathbf{ML}: \; arg \max_{w} -\frac{1}{2\sigma}\left\|y - \mathbf{X}w\right\|_{2}^{2}$$
+    Or, alternatively, solving it using vector calculus approach, we solve $\frac{\partial}{\partial{X}}\left\|\mathbf{X}\mathbf{W} + \mathbf{b}\right\|_{2}^{2} = 0$, and we get
+    $$\mathbf{X} = (\mathbf{W}^T\mathbf{W})^{-1}\mathbf{W}^T\mathbf{b}$$
+    
+    \item \textbf{What is the cost function?}
+    \noindent 
+    \smallbreak
+    Regression can be done using loss functions that spans the $\mathbb{R}$ space. Mean square error and mean absolute error are the common cost function of choice. We used mean squared error for our formulation.\\
+    \smallbreak
+    Mean squared error (L2 error)  $\left\|y - y'\right\|_{2}^2 = (y - \mathbf{X}w)^2$ \\ 
+    
+    \item \textbf{Whare are the advantages/disadvantages?}
+    \noindent 
+    \smallbreak
+    Linear regression is one of the most fundamental machine learning model. It is easy to implement and train. The trained model is also highly explainable. The modeling framework can be extended by different tricks to make it more robust, such as feature engineering/extension/selection, kernel tricks, and adding regularization.
+    
+    On the flip side, linear regression only model linear relationships between dependent and independent variables (which can be polynomials), which is not enough for more complex relationships. It is also sensitive to anomalies and requires data normalization to prevent that. Also, it requires more samples than the number of parameters as a rule of thumb, which is common across most machine learning models.
+    
+\end{enumerate}
+
+\section{Ridge Regression}
+
+\noindent
+\begin{enumerate}
+    \item \textbf{What are the basic concepts? What problem does it solve?}
+    \noindent 
+    \smallbreak
+    Ridge regression is an extension of base regression with an \verb|L2 norm| regularization term $\mathbf{\lambda}\left\| \mathbf{W}\right\|_{2}^{2}$ where $\mathbf{\lambda}$ is the learning rate that adjusts the regularization of parameters $\mathbf{W_{i}}$. \cite{1} The $\mathbf{\lambda}$ term is also called the \emph{shrinkage}. And when $\mathbf{\lambda} = 0$, it is just regular linear regression.
+    
+    In other words, we use ridge regression to fix if a linear regressor has high variance to improve the out of the sample fit of the model. We can find the learning rate parameter $\lambda$ using cross validation.
+    
+    \item \textbf{What are the assumptions?}
+    \noindent 
+    \smallbreak
+    As with linear regression, Ridge regression assumes that the output $y$ is linearly dependent on $x$. However, it will be linear dependent as long as $w$ is linear. It also assumes error term is a normally distributed random variable.
+    
+    \item \textbf{What are the steps of the algorithm?}
+    \noindent 
+    \smallbreak
+    From the descriptions above, we can model ridge regression as linear regression problem with a regularization term.
+    $$\mathbf{y} = \mathbf{X}\mathbf{W} + \mathbf{b} + \lambda\left\|\mathbf{W}\right\|_{2}^{2}$$
+    Thus, the loss function using least squared solution would be:
+    $$\mathbb{L}_{W_{ridge}} = \left\|\mathbf{y} - (mathbf{X}\mathbf{W} + \mathbf{b})\right\|_{2}^{2} + \lambda\left\|mathbf{W}\right\|_{2}^{2}$$
+    Pulling in the bias term into W and solving it for \mathbf{W}, we get: 
+    $$\mathbf{W} = (\lambda\mathbb{I} + \mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}\mathbf{y},$$
+    where the $\lambda$ term gets cancelled out as $\lambda$ goes to $\infty$.
+    
+    \item \textbf{What is the cost function?}
+    \noindent 
+    \smallbreak
+    Regression can be done using loss functions that spans the $\mathbb{R}$ space. Mean square error and mean absolute error are the common cost function of choice. We used mean squared error for our formulation.\\
+    \smallbreak
+    Mean squared error (L2 error)  $\left\|y - y'\right\|_{2}^2 = (y - \mathbf{X}w)^2$ \\
+    \smallbreak
+    
+    \item \textbf{Whare are the advantages/disadvantages?}
+    \noindent 
+    \smallbreak
+    Ridge regression extends from Linear regression with a regularization term. Thus it shares similar properties as linear regression: easy to implement, easy to train. The trained model is also highly explainable. The modeling framework can be extended by different tricks to make it more robust, such as feature engineering/extension/selection.
+    
+    On the flip side, it also shares some of the problems with linear regression only model, where it expects linear relationships between dependent and independent variables (which can be polynomials), which is not enough for more complex relationships. It is also sensitive to anomalies and requires data normalization to prevent that. Also, it requires more samples than the number of parameters as a rule of thumb, which is common across most machine learning models.
+    
+\end{enumerate}
+
 \section{Lasso Regression}
 
 \noindent
@@ -18,7 +102,7 @@
     \item \textbf{What are the basic concepts? What problem does it solve?}
     \noindent 
     \smallbreak
-    Lasso regression is an extension of basic regression with an \verb|L1 norm| regularization term $\mathbf{\lambda}\left\| \mathbf{W}\right\|_{1}$ where $\mathbf{\lambda}$ is a coefficient vector that adjusts the regularization of individual parameters $\mathbf{W_{i}}$. \cite{1} The $\mathbf{\lambda}$ term is also called the \emph{shrinkage}
+    Lasso regression is an extension of basic regression with an \verb|L1 norm| regularization term $\mathbf{\lambda}\left\| \mathbf{W}\right\|_{1}$ where $\mathbf{\lambda}$ is the learning rate vector that adjusts the regularization of parameters $\mathbf{W_{i}}$. \cite{1} The $\mathbf{\lambda}$ term is also called the \emph{shrinkage}
     
     In other words, Lasso is similar to Ridge where both helps adding biases to the model to improve the out of the sample fit of the model.
     Lasso is especially useful for dealing with sparse data.
@@ -47,19 +131,15 @@
     
     In a geometric sense, in high dimeisions, L1 norm will have many sharped edges and corners. During convex optimization, if the optimization hits the edges or corners, the coefficient become zero.  ON the other hand, L2 norm is a smooth surface thus it won't hit exactly model
     
+    \includegraphics[width=0.5\textwidth, center]{ridge_vs_lasso.png}
+    
     Thus, we can say that Lasso Regression yields a \emph{sparse} model where only a subset of the variables is in play. 
     
     Ridge is more suited for models with dense features while Lasso is more suited for models with sparse features. Use cross validation to determine the most suitable regularization.
-    
-    
-\begin{figure}
-  \includegraphics[width=\linewidth]{ridge_vs_lasso.png}
-  \caption{Ridge vs Lasso}
-  \label{fig:ridge_vs_lasso}
-\end{figure}
-    
 \end{enumerate}
 
+
+\bigbreak\bigbreak\bigbreak\bigbreak\bigbreak\bigbreak\bigbreak\bigbreak\bigbreak\bigbreak
 \section{Gradient Boosting}
 \noindent
 \begin{enumerate}
@@ -76,15 +156,15 @@
     \item \textbf{What are the steps of the algorithm?}
     \noindent 
     \smallbreak
-    Gradient boost initializes by building \verb|depth=1| node. It builds a tree depending on the depth and splits parameters. Then for the following trials it kept on building new trees to minimize the residual errors $(y - \gamma)$from the previous tree, and scale the contribution with a learning rate. The whole process is repeated $M$ times and the maximum depth of the individual trees is $J$.
+    Gradient boost initializes by building \verb|depth=1| node. It builds a tree depending on the depth and splits parameters. Then for the following trials it kept on building new trees to minimize the residual errors $(y - \gamma)$from the previous tree, and scale the contribution with a learning rate $\lambda$. The whole process is repeated $M$ times and the maximum depth of the individual trees is $J$.
     
     A formal definition is as follows \cite{1}
     \bigbreak
-    \hline
     \noindent
-    \textbf{Algorithm} Gradient Tree Boosting Algorithm
-    \begin{enumerate}
     \hline
+    \textbf{Algorithm} Gradient Tree Boosting Algorithm
+    \hline
+    \begin{enumerate}
         \item Initialize $f_o(x) = argmin_{\gamma} \sum_{i=1}^{N} L(y_i, \gamma)$
         \item For \emph{m} = 1 to \emph{M}:
             \begin{enumerate}
@@ -94,11 +174,13 @@
                 \item For a regresion tree to the target $\emph{r}_{im}$ given terminal regions $R_{jm}, j = 1, 2, ..., J_m$
                 \item For $j = 1, 2, ..., J_m$, find the new predicted value $\gamma$ \\
                 $\gamma_{jm} = argmin_{\gamma} \displaystyle\sum_{x_i \in R_{jm}} L(y_i, f_{m-1}(x_i) + \gamma)$
-                \item Update $f_m(x) = f_{m-1}(x) + \sum_{j=1}^{J_m} \gamma_{jm} I(x \in R_{jm})$
+                \item Update $f_m(x) = f_{m-1}(x) + \lambda \sum_{j=1}^{J_m} \gamma_{jm} I(x \in R_{jm})$
             \end{enumerate}
         \item Output $\hat f(x) = f_M(x)$
-    \end{enumerate}
     \hline
+    \end{enumerate}
+
+
     
     \item \textbf{What is the cost function?}
     \noindent 
@@ -109,7 +191,7 @@
         \hline
         Setting & Loss Function & $ \frac{-\partial L(y_i, f(x_i))}{\partial f(x_i)}$ \\ \hline
         Regression & $\frac{1}{2}[y_i - f(x_i)]^2$ & $y_i - f(x_i)$ \\ \hline
-        Regression & $\left\||y_i - f(x_i)|\right\|$ & $sign[y_i - f(x_i)]$ \\ \hline
+        Regression & $\left\||y_i - f(x_i)|\right\|$ & sign[y_i - f(x_i)] \\ \hline
         Regression & Huber & y_i - f(x_i) for |y_i - f(x_i)| \leq \delta_m \\ 
          & & \delta_m sign[y_i- f(x_i)] for |y_i - f(x_i)| > \delta_m \\ 
          & & where \delta_m \eq \alpha th-quantile \{|y_i - f(x_i)|\} \\ \hline
@@ -118,12 +200,92 @@
       \end{tabular}
     \end{center}
     
-    \item \textbf{Whare are the advantages/disadvantages?}
+    \item \textbf{What are the advantages/disadvantages?}
     \noindent 
     \smallbreak
     Gradient boost is very similar to AdaBoost. The key difference is that for Gradient Boost, it can have a tree size that is larger than a stomp (depth of 1). Because gradient boosting is a boosting model that ensembles sequentially trained models, it is a naturally a low bias model. However, the downside is to a low bias model is the variance can be high and has to be reduced by adding regularization. Also, because the model is trained sequentially, it is compute intensive to train.
     
 \end{enumerate}
+
+\section{Naive Bayes}
+
+\noindent
+\begin{enumerate}
+    \item \textbf{What are the basic concepts? What problem does it solve?}
+    \noindent 
+    \smallbreak
+    
+    
+    \item \textbf{What are the assumptions?}
+    \noindent 
+    \smallbreak
+    
+    
+    \item \textbf{What are the steps of the algorithm?}
+    \noindent 
+    \smallbreak
+    
+    
+    \item \textbf{What is the cost function?}
+    \noindent 
+    \smallbreak
+    
+    
+    \item \textbf{Whare are the advantages/disadvantages?}
+    \noindent 
+    \smallbreak
+    
+    
+\end{enumerate}
+
+
+\section{Support Vector Machines}
+\noindent
+\begin{enumerate}
+    \item \textbf{What are the basic concepts? What problem does it solve?}
+    \noindent 
+    \smallbreak
+    Support Vector Machines finds the hyperplane that separates the data with the greatest margin. Two key concepts of Support Vector Machine is it uses soft margins instead of max margins to reduce variances and it uses the kernel trick to implicitly increase the feature space to reduce bias. 
+    
+    It can be used for both classification and regression problems. It uses a kernel function to compute the inner product of two variables in a higher dimensional space. The data that resides in the soft margin are called support vectors, with distance to the soft margin line $\epsilon$. Hyperparameter \textbf{C} is learning rate and is found using cross validation.
+    
+    \item \textbf{What are the assumptions?}
+    \noindent 
+    \smallbreak
+    Support Vector Machine treats all the data points as equals so it is important to standardize the data. Otherwise it does not make assumptions about the underlying data distribution.
+    
+    \item \textbf{What are the steps of the algorithm?}
+    \noindent 
+    \smallbreak
+    Support Vector Machine is a convex optimization problem where it \textbf{Solve:} $\min_{w, b, \epsilon}\frac{1}{2}\left\|w\right\|_{2}^{2} + C\sum_{i=1}^{n} \epsilon_i$ such that $y_i(w^{T} x_i - w_0) \geq (1 - \epsilon_i)$ and $\epsilon_i \geq 0, \quad \forall i$. After derivation, Support Vector Machine function is:
+    $$f(x) = w_o + \sum \hat{\alpha_i}K(x, x_i)$$
+    where $\hat{\alpha_i}$ are zero for data not in the support set and $K$ is the Kernel function. The common kernels are polynomial, radio basis kernel (behaves similar to nearest neighbor), and neural network kernel. \cite{1}
+    \begin{center}
+      \begin{tabular}{ l l }
+        \hline
+        nth-Degree polynomial & $K(x,x') = (1 + (x, x'))^d$ \\
+        Radial basis function (RBF) & $K(x, x') = exp(-\gamma\left\|x - x'\right\|_{2}^{2}$ \\ 
+        Neural network & $K(x, x') = tanh(\kappa_1(x, x') + \kappa_2)$ \\ 
+        \hline
+      \end{tabular}
+    \end{center}
+    
+    \item \textbf{What is the cost function?}
+    \noindent 
+    \smallbreak
+    Support Vector Machine uses hinge loss, which has the form of loss plus penalty. $L[y, f(x)] = [1 - yf(x)]_{+}$The following compares the negative log likelihood loss to hinge loss. Note that sharp hinge corner, that is when $\aplha$ are set to zero.
+    
+    \includegraphics[width=0.3\textwidth, center]{hinge_loss_han.png}
+    
+    \item \textbf{Whare are the advantages/disadvantages?}
+    \noindent 
+    \smallbreak
+    When classes are nearly separable, SVM does better than logistic regression and LDA. When classes are not, then SVM does similarly well as logistic regression. We can use kernel tricks with LDA and logistic regression as well, but more compute intensive.
+    
+    The downside with SVM is it does not provide a probability estimate, low interpretability, and does not do any feature selection.
+    
+\end{enumerate}
+
 
 \section{Neural Networks}
 \noindent
@@ -133,7 +295,7 @@
     \smallbreak
     According to the Universal Approximator Theorum, neural networks is an universal function approximator that can be used approximate any functions that map $X \rightarrow Y$. It can be used abstracts away some of the feature engineering steps in classical machine learning tasks. For example, instead of designing image filters, CNN learns the filters itself, or instead of tagging word semantic labels, RNNs learns the relationships between words.
     
-    The most fundamental neural network layer is a linear layer where $f(\mathbf{X}) = \sum_{m=1}^{M} g_m(\mathbf{W_m}\intercal\mathbf{X})$, where the input values go through an affine transformation and scaled by an activation function $g_m$. Activation functions usually tend to scale the outputs to pseudo range bound, such as sigmoid and Tanh. 
+    The most fundamental neural network layer is a linear layer where $f(\mathbf{X}) = \sum_{m=1}^{M} g_m(\mathbf{W_m}\intercal\mathbf{X})$, where the input values go through an affine transformation and scaled by an activation function $g_m$. Activation functions usually tend to scale the outputs to pseudo range bound, such as Sigmoid and Tanh. 
 
     \item \textbf{What are the assumptions?}
     \noindent 
@@ -143,7 +305,7 @@
     \item \textbf{What are the steps of the algorithm?}
     \noindent 
     \smallbreak
-    Neural networks is predominant solved using stochastic gradient descent with an auto differentiation library. First, inputs are feeded forward through the network for an output $\hat y$, and apply the loss function. The algorithm then take the gradients of the loss function and back propagate the network to obtain the differences in parameters between target and output. The parameters are then updated with the differences. One small batch at a time.
+    Neural networks is predominant solved using stochastic gradient descent with an auto differentiation library. First, inputs are feed forward through the network for an output $\hat y$, and apply the loss function. The algorithm then take the gradients of the loss function and back propagate the network to obtain the differences in parameters between target and output. The parameters are then updated with the differences. One small batch at a time.
     \bigbreak
     \hline
     \noindent
@@ -199,3 +361,5 @@ Nasirany, Thomas, Wei, and Yang,
 
 \end{thebibliography}
 \end{document}
+
+
