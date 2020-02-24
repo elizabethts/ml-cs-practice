@@ -120,3 +120,78 @@ The cost function is **exponential loss**.
 L(y, f(x)) = exp(-yf(x))
 
 * What are the advantages/disadvantages?
+
+
+# Decision Trees
+
+* What are the basic concepts? What problem does it solve?
+
+In decision trees, we are trying to specify sequences of decisions and consequences, basically we're breaking down our dataset to smaller subsets.
+
+We can use Regression Tree or Classification Tree.
+
+The main parts are:
+
+- Root Node
+- Branch Node
+- Internal Node
+- Leaf Node 
+
+The **depth of a node** is the minimum number of steps required to reach the node from the root.
+
+
+* What are the assumptions?
+
+This model performs well on unprocessed data (we don't have to normalize, center or scale features)
+
+It is a non-parametric method - it does not make explicit assumptions about the function form of f, it just estimate of f in terms of mean.
+
+* What are the steps of the algorithm?
+
+1. We start with recursive binary splitting based on the predictor X and the cutpoint s. We aim for greatest possible reduction in CLassification Error rate. 
+
+2. Now we have 2 partitions and we want to repeat this process to look for the best predictor and best cutpoint to split the data further. The goal is to minimize Classification Error Rate/Misclassification Rate. We find and sort by Gini index - we try to find the smallest one.
+
+3. We continue until a stopping criterion is reached (i.e. no region contains more than 5 observations, we have points in only 1 class).
+
+
+* What is the cost function?
+
+Regression tree - minimize (MSE or RSS - residual sum of squares)
+
+Classification tree - minimize classification error rate 
+
+TODO: Explain better 
+
+
+* What are the advantages/disadvantages?
+
+Advantages - simple to understand and interpret, can be used even with little data, we can add new scenarios, we can do outcomes modeling (best, worst), it is a "white box" model, and finally we can combine it with other decision techniques (TODO) and it can handle non-linear relationships. 
+
+Disadvantages - they are unstable (small change in data can lead to large change in the structure), they may be relatively inaccurate (hence random forest, but that one has lower interpretability), there might be biases in variables - attributes with more levels are favoured. Finally, the calculations can be more complex. 
+
+
+# Random Forest 
+
+* What are the basic concepts? What problem does it solve?
+
+* What are the assumptions?
+
+* What are the steps of the algorithm?
+
+* What is the cost function?
+
+* What are the advantages/disadvantages?
+
+
+# Algorithm
+
+* What are the basic concepts? What problem does it solve?
+
+* What are the assumptions?
+
+* What are the steps of the algorithm?
+
+* What is the cost function?
+
+* What are the advantages/disadvantages?
