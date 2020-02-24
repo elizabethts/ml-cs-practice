@@ -3,8 +3,9 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{graphicx}
 \usepackage[export]{adjustbox}
+\usepackage{amsmath}
 
-\title{Machine Learning Algorithms Overview}
+\title{Machine Learning Overview}
 \author{Hanchung Lee}
 \date{February 2020}
 
@@ -214,7 +215,9 @@
     \item \textbf{What are the basic concepts? What problem does it solve?}
     \noindent 
     \smallbreak
+    Naive Bayes classifier is a probabilistic model based on the Bayes rule. It is Naive because it makes an assumption that inputs are conditionally independent of each output class, which is not realistic. It is also known as "Idiot's Bayes"\cite{1}. Despite that, naive Bayes classifiers often outperform far more sophisticated alternatives. It's a simple and strong method that can be comparable to decision trees and neural networks in certain cases.
     
+    It is most commonly seen and used in text classification models. 
     
     \item \textbf{What are the assumptions?}
     \noindent 
@@ -224,20 +227,35 @@
     \item \textbf{What are the steps of the algorithm?}
     \noindent 
     \smallbreak
+    \textbf{Learning:} Based on the frequency counts in the dataset:
+    \begin{enumerate}
+        \item Estimate all $p(y), \forall y \in \mathbb{Y}$
+        \item Estimate all $p(x_i|y), \forall y \in \mathbb{Y}, \forall x_i$
+    \end{enumerate}
+    \textbf{Classification:} For a new example, use:\\
+    \begin{align*}
+        y_{new} = argmax_{y \in \mathbb{Y}} \pi_{i} p(x_i|y)    
+    \end{align*}
     
+    No model per se or hyperplane, just count the frequencies of various data combinations within the training examples.
     
     \item \textbf{What is the cost function?}
     \noindent 
     \smallbreak
-    
+    "Cost" function for naive Bayes is not the same as algorithms, where other algorithms try to adjust the model weights with regards to the value that the cost function outputs. Naive Bayes is simply doing 
+    \begin{align*}
+        y_{new} = argmax_{y \in \mathbb{Y}} \pi_{i} p(x_i|y)    
+    \end{align*}
     
     \item \textbf{Whare are the advantages/disadvantages?}
     \noindent 
     \smallbreak
+    Naive Bayes is a linear classifier, an variant of Linear Discrimanent Analysis. It is incredibly simple and easy to implement and works wonderfully for text data. It is especially appropriate when the dimension of the feature space is high. The model is light weight and runs very fast for real time inferencing. It is especially useful when inference time budget is small.
     
+    The naive assumption of feature Independence is a double edged sword. While the assumption made naive Bayes a simple and powerful model, the assumption also prevent it to learn further intricacies of the underlying relationships. One other major disadvantage of naive Bayes is that it does not generalize well to unseen inputs.
     
 \end{enumerate}
-
+\pagebreak
 
 \section{Support Vector Machines}
 \noindent
@@ -342,6 +360,66 @@
     
 \end{enumerate}
 
+
+\section{Generative vs Discriminative}
+\noindent
+\begin{enumerate}
+    \item \textbf{What are the basic concepts?}
+    \noindent 
+    \smallbreak
+    \textbf{Generative classifiers} learns a model of the join probability $p(x, y)$, of the input $x$ and the label $y$, and make their predictions by using Bayes rules to calculate $p(y|x)$, then pick the most likely label $y$.\cite{4} In learning joint probability $p(x, y)$ it learns both $p(x|y)$ (likelihood) and $p(y)$ (class prior) and make inference using Bayes rule. Generative models can use the joint probability $p(x, y)$ to generate new data similar to existing data. It also requires not as much data samples to train and easy to implement.
+    \begin{itemize}
+        \item[--] Idea: Build a model for what positive examples look like. Build a different model for what negative example look like.
+        \item[--] To predict a new example, match it with each of the models and see which match is best.
+        \item[--] Model $p(x|y)$ and $p(y)$
+        \item[--] Use Bayes rule to obtain $p(y|x) = \frac{p(x|y)p(y)}{p(x)}$
+        \item[--] To make a prediction: \\
+        \begin{align*}
+            argmax_{y} p(y|x) &= argmax_{y} \frac{p(x|y)p(y)}{p(x)} \\
+              &\approx argmax_{y} p(x|y)p(y)  \\ 
+        \end{align*}
+        
+    \end{itemize}
+
+    \noindent 
+    \smallbreak
+    \textbf{Discriminative classifiers} models the posterior $p(y|x)$ directly, or learn a direct map from input $x$ to class labels.\cite{4} Discriminative models generally offers better performance in classification tasks.
+    \begin{itemize}
+        \item[--] Idea: model $p(y|x)$, conditional distribution of $y$ given $x$.
+        \item[--] In discriminative algorithms: find a decision boundary that separates positive from negative examples
+        \item[--] To predict a new example, check which side of the decision boundary it falls
+        \item[--] Model $p(y|x)$ directly.
+    \end{itemize}
+    
+    \noindent 
+    \smallbreak
+    Here are some examples of generative and discriminative models:
+    \begin{center}
+      \begin{tabular}{ l l }
+        \hline
+        \textbf{Generative} & \textbf{Discriminative} \\
+        \hline
+        Naive Bayes & Logistic regression \\
+        Hidden Markov model & K-nearest neighbors \\ 
+        Gaussian mixture model & Support vector machines \\
+        Generative adversarial networks & Neural networks \\ 
+        \hline
+      \end{tabular}
+    \end{center}
+    
+\end{enumerate}
+\pagebreak
+
+\section{Bias-Variance Trade off}
+\noindent
+\begin{enumerate}
+    \item \textbf{What are the basic concepts?}
+    \noindent 
+    \smallbreak
+    
+\end{enumerate}
+
+
 \begin{thebibliography}{}
 \bibitem{1}
 Hastie, Tibshirani, and Friedman,
@@ -359,7 +437,10 @@ Nasirany, Thomas, Wei, and Yang,
 \emph{A Comprehensive Guide to Machine Learning},
 2018
 
+\bibitem{4}
+Ng, Jordan,
+\emph{On Discriminative vs Generative Classifiers: A comparison of logistic regression and naive Bayes}
+2002
+
 \end{thebibliography}
 \end{document}
-
-
