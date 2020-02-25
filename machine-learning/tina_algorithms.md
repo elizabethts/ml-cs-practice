@@ -47,7 +47,7 @@ KNN is a **supervised learning** algorithm based on the idea of similarity, or p
 
 * What are the assumptions?
 
-This algorithm can be used for both classification (we calculate the mode) and regression (we return the mean) problems.
+This algorithm can be used for both classification (we calculate the mode) and regression (we return the mean) problems in supervised learning.  
 
 It's a **non-parametric model**, so it does not make any underlying assumptions about the distribution. 
 
@@ -175,13 +175,50 @@ Disadvantages - they are unstable (small change in data can lead to large change
 
 * What are the basic concepts? What problem does it solve?
 
+Random Forestsare an ensemble learning method for classification, regression or other taks that operate by construction a multitude of decision trees at training time and outputting the class that is the **mode** of the classes (classification) or **mean prediction** (regression) of the individual trees. 
+
+
 * What are the assumptions?
+
+The algorithm is not allowed to consider a majority of the available predictors. It is a parametric model.
+
+TODO: Is it probabilistic? Can we pull predict_proba? 
+Regular and boosted trees are probabilistic, RF - not sure.
 
 * What are the steps of the algorithm?
 
-* What is the cost function?
+1. Bagging - random sampling with replacement from the original set to generate additional training data. The purpose is to **reduce the variance** while **retaining the bias**. We are improving the accuracy of a single model by using multiple copies of it trained on different sets of data. 
+
+Bagging is **not** recommended on models that have a high bias. 
+
+2. Random selection of m predictions. This is used in each split, and we use a rule of thumb to determine the number of features selected m=sqrt(p), this process **de-correlates** the trees.
+
+3. Each tree is grown to the largest extent possible and there is no pruning. 
+
+4. We predict new data by aggregating the predictions of the ntree trees (majority votes for classification, average for regression).  
+
+* What is the difference between bagging and boosting?
+
+What’s the difference between bagging and boosting?
+
+Bagging: bootstrap sample, sample with replacement
+Purpose: when model is complex and easy to overfitting, reduce variance and avoid overfitting
+Pros: better prevent overfitting, parallel training all the trees
+Cons: lower accuracy than boosting
+
+Boosting: train a weak classifier, and improve it sequentially
+Purpose: when model is weak and can’t fit the model, improving weak classifiers, make complementary to each other.
+Pros: boosting performs better, as during boosting subsequent models learns from the errors of previous models and thus result into enhanced performance of final output
+Cons: tend to overfit, sequentially - high computation complexity.
+
+
+Hyperparameters are like the settings of an algorithm that can be adjusted to optimize performance
 
 * What are the advantages/disadvantages?
+
+Advantages - a single decision tree tends to overfit, this process of averaging or cmbining the results helps us to eliminate this problem. RF have less variance than a single decison tree - it works correctly for a large range of data items than single decision tree. They are extremely flexible with high accuracy, do not require prep of the input data or scaling. It also handles missing data well. 
+
+Disadvantages - this algorithm is much more complex than decision trees, and therefore requires more compute and is less intuitive. It is also more time-consuming.
 
 
 # Algorithm
