@@ -221,6 +221,61 @@ Advantages - a single decision tree tends to overfit, this process of averaging 
 Disadvantages - this algorithm is much more complex than decision trees, and therefore requires more compute and is less intuitive. It is also more time-consuming.
 
 
+# Ridge Regression
+
+* What are the basic concepts? What problem does it solve?
+
+* What are the assumptions?
+
+* What are the steps of the algorithm?
+
+* What is the cost function?
+
+* What are the advantages/disadvantages?
+
+
+# Support Vector Machine (SVM)
+
+* What are the basic concepts? What problem does it solve?
+
+The purpose of SVM is to design a hyperplane that classifies all training vectors in 2 classes. The best choice is the hyperplane that leaves the maximum margin from both classes. 
+
+SVMs are great for relatively small data sets with fewer outliers.
+
+**Hyperplane** - it is a linear decision surface that splits the space into 2 parts. Clearly, hyperplane is a binary classifier. 
+
+A hyperplane is a p-1 dimension:
+
+- in 2 dimensions, a hyperplane is a line
+- in 3 dimensions, a hyperplane is a plane
+
+* What are the assumptions?
+
+* What are the steps of the algorithm?
+
+**Maximal Margin Hyper-plane** - it the separating hyper-plane for which the margin is largest. 
+
+**Support Vectors** - are the datapoints nearest to the hyperplane. If we remove these data points, they would alter the position of dividing hyperplane. They are considered critical elements of the dataset.
+
+**Support Vector Classifier** - also called a soft margin classifier. Instead of seeking the option where  highest possible margin and correct side of the hyperplane is defined, we instead allow some observations to be on the incorrect side of the margin, or even incorrect side of the hyperplane. 
+
+**Kernel Trick** - if your data is not linearly separable in our n'dimensional space, it may be linearly separable in higher dimensional space. 
+
+* What is the cost function?
+
+Hinge loss. It is used for "maximum-margin" classification.
+
+* What are the advantages/disadvantages?
+
+Advantages - lower risk of overfitting, the kernel trick is the real strength (we can solve any complex problem), SVM is defined by a convex optimization problem, so SVM is not solved for local optima. 
+
+The algorithm works for unstructured and semi-structured data such as text, images and trees. It is highly effective for high-dimensional spaces and scales well. 
+
+Disadvantages - it is a challenge to choose a "good" kernel function, long training time (esp. for large datasets), difficult to understand and interpret the model. 
+
+If we have greater number of features than data samples, SVM can perform poorly.
+
+
 # Algorithm
 
 * What are the basic concepts? What problem does it solve?
