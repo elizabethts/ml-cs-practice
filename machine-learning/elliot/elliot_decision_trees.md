@@ -8,6 +8,8 @@ Intuition:
 
 #### What are the assumptions?
 -	DTs are nonparametric, so no assumptions made about the classifier or underlying distribution
+    - Parametric in the ML model sense is defined as growing as the size of the models grow
+    - In decision trees, the parameters of the model, which is the tree size, is certainly not fixed and usually changes with the size of the data. For example, smaller datasets could be modeled with small size trees and larger datasets could require bigger trees. The important point is that we are not fixing the tree size beforehand.
 
 #### What are the steps of the algorithm?
 -	Top of the tree is called the Root, others are called Internal Nodes, the ends are called Leafs
