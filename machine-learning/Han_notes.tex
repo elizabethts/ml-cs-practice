@@ -3,8 +3,10 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{graphicx}
 \usepackage[export]{adjustbox}
+\usepackage{amsmath}
+\usepackage[ruled,vlined]{algorithm2e}
 
-\title{Machine Learning Algorithms Overview}
+\title{Machine Learning Overview}
 \author{Hanchung Lee}
 \date{February 2020}
 
@@ -207,6 +209,106 @@
     
 \end{enumerate}
 
+
+\section{K-Nearest Neighbors}
+\noindent
+\begin{enumerate}
+    \item \textbf{What are the basic concepts? What problem does it solve?}
+    \noindent 
+    \smallbreak
+    K-Nearest Neighbors can be used for either regression or classification. It finds the K nearest points next to a new input data and determines the value or class by taking the mean value of its K nearest neighbors, or in the case of classification, mode. It captures the point similarity with its neighbours.
+    
+    The smaller the K, smaller training error; the larger the K, the more smooth the decision boundary due to majority voting of neighbors. To find the optimal K, cross validate or grid search.
+
+    \item \textbf{What are the assumptions?}
+    \noindent 
+    \smallbreak
+    KNN is a non parametric model. The basic assumption is that the data points close to it will have the same class labels for classification, or similar values in terms of regression.
+    
+    \item \textbf{What are the steps of the algorithm?}
+    \noindent 
+    \smallbreak
+    Given data $(x_1, y_1), (x_2, y_2), ..., (x_i, y_i)$, construct KNN as follows:
+    For a new input $x$:
+    \begin{enumerate}
+        \item Return $k$ nearest points closest to $x$, indexed as $x_{i1}, x_{i2}, ..., x_{ij}$.
+        \item Return the majority vote of $y_{i1}, y_{i2}, ..., y_{ij}$.
+    \end{enumerate}
+    
+    \item \textbf{What is the cost function?}
+    \noindent 
+    \smallbreak
+    KNN does not use a loss function to train the model. Instead, it uses distance functions, where the most common distance function is \verb|L2 norm| $= \left\|u - v\right\|_2 = (\sum_{i=1}^{d}(u_i - v_i)^{2})^\frac{1}{2}$ for dimension $\mathbb{R}^d$. Or, in a more generalized form,\\
+    $$\left\|u - v\right\|_p = (\sum_{i=1}^{d}(u_i - v_i)^{p})^\frac{1}{p}$$
+    
+    Other distances can be used as well, including edit distances (how many edits away to transform from one string to another), or correlation distance (for signal detection).
+    
+    \item \textbf{What are the advantages/disadvantages?}
+    \noindent 
+    \smallbreak
+    KNN has an easy to interpret output and it does not make any assumption about the underlying data. Further, it can naturally extend to multi-class classifier and can do well in practice with enough data. For example, KNN can achieve 90\%+ with MNIST dataset.
+    
+    Om the other hand, it requires data to in or relatively close to memory, thus when the dataset is big is big enough it becomes a big search problem. Also, finding a proper distance function requires some expert knowledge, heuristics, or a grid search.
+\end{enumerate}
+\bigbreak\bigbreak\bigbreak\bigbreak\bigbreak\bigbreak\bigbreak\bigbreak\bigbreak\bigbreak
+
+
+\section{K-means Clustering}
+\noindent
+\begin{enumerate}
+    \item \textbf{What are the basic concepts? What problem does it solve?}
+    \noindent 
+    \smallbreak
+    K-means is an unsupervised learning method where it tries to separate data into $K$ clusters by finding the $K$ centroids within the dataset.
+    
+    \item \textbf{What are the assumptions?}
+    \noindent 
+    \smallbreak
+    K-means is a non-parametric unsupervised learning model. It assumes the clusters separated/calculated has a "circular" shape with a centroid each  as it attempts to assign each sample $(x_1, ..., x_n)$ to one of the $K$ clusters $\{C_1, ..., C_k\}$
+    
+    \item \textbf{What are the steps of the algorithm?}
+    \noindent 
+    \smallbreak
+    To run K-means clustering, we use the following algorithm:
+    
+    \begin{algorithm}
+        Initialize randomly centeroids $\mu_1, ..., \mu_k$\;
+        \Repeat{convergence}{
+            assign each point $x_i$ to the cluster with the closet $\mu_j$;\\
+            Calculate the new mean for each cluster as follows:;\\
+            $\mu_j = \frac{1}{\|C_j\|} \sum_{x_i \in C_j} x_i$\\}
+        \caption{K-means algorithms}
+        Convergence: means no change in the clusters OR maximum number of iterations reached.
+    \end{algorithm}
+    
+    To find the optimal $k$ that clusters the data, we can use PG-means algorithm \cite{5}. Other alternatives are G-means and P-means.
+    \begin{algorithm}
+        Initialize $k$ to be a small number;
+        \Repeat{no more cluster center is created.}{
+            Run K-means with those cluster centers, and store the resulting center as C\\
+            Assign each point to its nearest cluster\\
+            Determine if points in each cluster fit a Gaussian distribution (using Anderson-Darling test).\\
+            For each cluster, if the points seem to be normally distributed, keep the cluster center. Otherwise replace it with two cluster centers.}
+        \caption{PG-means algorithm}
+    \end{algorithm}
+    
+    \item \textbf{What is the cost function?}
+    \noindent 
+    \smallbreak
+    There's no cost functions for K-means clustering per se, but the algorithm uses $\mu_j = \frac{1}{\|C_j\|} \sum_{x_i \in C_j} x_i$ to calculate the mean of each centroid.
+    
+    \item \textbf{What are the advantages/disadvantages?}
+    \noindent 
+    \smallbreak
+    The biggest benefit for K-means Clustering as a clustering algorithm is that its super easy to implement.
+    
+    However there are many downsides. First, it needs to know $K$, which we can 'solve' using PG-means algorithm\cite{5}, but there still exists no trivial way to evaluate the model similar to, say, comparing to counting the number of errors in a classification. K-means also suffers from the curse of dimensionality and has no theoretical foundation.
+    
+    There are other methods to cluster non-circular shapes, such as spectral clustering, DBScan, BIRCH, etc that handles other shapes. Alternatively, we can use PCA and TSNE for clustering higher dimensional data.
+\end{enumerate}
+
+
+
 \section{Naive Bayes}
 
 \noindent
@@ -214,30 +316,48 @@
     \item \textbf{What are the basic concepts? What problem does it solve?}
     \noindent 
     \smallbreak
+    Naive Bayes classifier is a probabilistic model based on the Bayes rule. It is Naive because it makes an assumption that inputs are conditionally independent of each output class, which is not realistic. It is also known as "Idiot's Bayes"\cite{1}. Despite that, naive Bayes classifiers often outperform far more sophisticated alternatives. It's a simple and strong method that can be comparable to decision trees and neural networks in certain cases.
     
+    It is most commonly seen and used in text classification models. 
     
     \item \textbf{What are the assumptions?}
     \noindent 
     \smallbreak
     
+    It is Naive because it makes an assumption that inputs are conditionally independent of each output class, which is not realistic. It is also known as "Idiot's Bayes"\cite{1}.
     
     \item \textbf{What are the steps of the algorithm?}
     \noindent 
     \smallbreak
+    \textbf{Learning:} Based on the frequency counts in the dataset:
+    \begin{enumerate}
+        \item Estimate all $p(y), \forall y \in \mathbb{Y}$
+        \item Estimate all $p(x_i|y), \forall y \in \mathbb{Y}, \forall x_i$
+    \end{enumerate}
+    \textbf{Classification:} For a new example, use:\\
+    \begin{align*}
+        y_{new} = argmax_{y \in \mathbb{Y}} \mathbf{\Pi}_{i} p(x_i|y)    
+    \end{align*}
     
+    No model per se or hyperplane, just count the frequencies of various data combinations within the training examples.
     
     \item \textbf{What is the cost function?}
     \noindent 
     \smallbreak
-    
+    "Cost" function for naive Bayes is not the same as algorithms, where other algorithms try to adjust the model weights with regards to the value that the cost function outputs. Naive Bayes is simply doing 
+    \begin{align*}
+        y_{new} = argmax_{y \in \mathbb{Y}} \mathbf{\Pi}_{i} p(x_i|y)    
+    \end{align*}
     
     \item \textbf{Whare are the advantages/disadvantages?}
     \noindent 
     \smallbreak
+    Naive Bayes is a linear classifier, an variant of Linear Discrimanent Analysis. It is incredibly simple and easy to implement and works wonderfully for text data. It is especially appropriate when the dimension of the feature space is high. The model is light weight and runs very fast for real time inferencing. It is especially useful when inference time budget is small.
     
+    The naive assumption of feature Independence is a double edged sword. While the assumption made naive Bayes a simple and powerful model, the assumption also prevent it to learn further intricacies of the underlying relationships. One other major disadvantage of naive Bayes is that it does not generalize well to unseen inputs.
     
 \end{enumerate}
-
+\pagebreak
 
 \section{Support Vector Machines}
 \noindent
@@ -342,6 +462,66 @@
     
 \end{enumerate}
 
+
+\section{Generative vs Discriminative}
+\noindent
+\begin{enumerate}
+    \item \textbf{What are the basic concepts?}
+    \noindent 
+    \smallbreak
+    \textbf{Generative classifiers} learns a model of the join probability $p(x, y)$, of the input $x$ and the label $y$, and make their predictions by using Bayes rules to calculate $p(y|x)$, then pick the most likely label $y$.\cite{4} In learning joint probability $p(x, y)$ it learns both $p(x|y)$ (likelihood) and $p(y)$ (class prior) and make inference using Bayes rule. Generative models can use the joint probability $p(x, y)$ to generate new data similar to existing data. It also requires not as much data samples to train and easy to implement.
+    \begin{itemize}
+        \item[--] Idea: Build a model for what positive examples look like. Build a different model for what negative example look like.
+        \item[--] To predict a new example, match it with each of the models and see which match is best.
+        \item[--] Model $p(x|y)$ and $p(y)$
+        \item[--] Use Bayes rule to obtain $p(y|x) = \frac{p(x|y)p(y)}{p(x)}$
+        \item[--] To make a prediction: \\
+        \begin{align*}
+            argmax_{y} p(y|x) &= argmax_{y} \frac{p(x|y)p(y)}{p(x)} \\
+              &\approx argmax_{y} p(x|y)p(y)  \\ 
+        \end{align*}
+        
+    \end{itemize}
+
+    \noindent 
+    \smallbreak
+    \textbf{Discriminative classifiers} models the posterior $p(y|x)$ directly, or learn a direct map from input $x$ to class labels.\cite{4} Discriminative models generally offers better performance in classification tasks.
+    \begin{itemize}
+        \item[--] Idea: model $p(y|x)$, conditional distribution of $y$ given $x$.
+        \item[--] In discriminative algorithms: find a decision boundary that separates positive from negative examples
+        \item[--] To predict a new example, check which side of the decision boundary it falls
+        \item[--] Model $p(y|x)$ directly.
+    \end{itemize}
+    
+    \noindent 
+    \smallbreak
+    Here are some examples of generative and discriminative models:
+    \begin{center}
+      \begin{tabular}{ l l }
+        \hline
+        \textbf{Generative} & \textbf{Discriminative} \\
+        \hline
+        Naive Bayes & Logistic regression \\
+        Hidden Markov model & K-nearest neighbors \\ 
+        Gaussian mixture model & Support vector machines \\
+        Generative adversarial networks & Neural networks \\ 
+        \hline
+      \end{tabular}
+    \end{center}
+    
+\end{enumerate}
+\pagebreak
+
+\section{Bias-Variance Trade off}
+\noindent
+\begin{enumerate}
+    \item \textbf{What are the basic concepts?}
+    \noindent 
+    \smallbreak
+    
+\end{enumerate}
+
+
 \begin{thebibliography}{}
 \bibitem{1}
 Hastie, Tibshirani, and Friedman,
@@ -359,7 +539,16 @@ Nasirany, Thomas, Wei, and Yang,
 \emph{A Comprehensive Guide to Machine Learning},
 2018
 
+\bibitem{4}
+Ng and Jordan,
+\emph{On Discriminative vs Generative Classifiers: A comparison of logistic regression and naive Bayes}
+2002
+
+\bibitem{5}
+Hamerly and Elkan
+\emph{PG-means: learning the number of clusters in data}
+2003
+
 \end{thebibliography}
 \end{document}
-
 
