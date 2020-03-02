@@ -5,7 +5,8 @@ Decision Trees
 - Trees have a weakness in predictive learning: inaccuracy (not great with classifying new samples)
 - Called ensemble learning because: you ensemble a bunch of DTs to train, and your output is:
     - Mode of the classes (classification)
-    - Mean prediction of individual trees (regression )
+    - Mean prediction of individual trees (regression)
+- It is a probabilistic model
 
 #### What are the assumptions?
 - the sampling is representative

@@ -5,6 +5,7 @@ Support Vector Machine (SVM)
 - Support vector machines focus only on the points that are the most difficult to tell apart, whereas other classifiers pay attention to all of the points.
 - If a classifier is good at the most challenging comparisons, then the classifier will be even better at the easy comparisons
 - unlike other classifiers, the SVM is explicitly told to find the best separating line
+- non-probabilistic & non-parametric & discriminative
 
 #### What are the assumptions?
 - no distributional assumptions other than iid
@@ -12,6 +13,7 @@ Support Vector Machine (SVM)
 
 #### What are the steps of the algorithm?
 - Searches for closest points, called support vectors
+    - The distance between those is the margin
 - Draw a line connecting them by vector subtraction
 - Declares the best separating line to be the line that bisects and is perpendicular to the connecting line
 
@@ -21,7 +23,9 @@ If the problem is non-linear:
 - kernels include: linear, polynomial, radial basis function, sigmoid
 
 #### What is the cost function?
-- Uses hinge loss and L2 regularization: maximize the margin
+- Uses hinge loss and L2 regularization: to maximize the margin
+    - on a chart, it's the hinge
+    - if data cannot be completely be separated by hyperplane, allow a margin of error
 
 #### What are the advantages/disadvantages?
 Pros:
@@ -36,8 +40,6 @@ Cons
 - Have to tune the hyperparameters correctly (kernel type, kernel specific parameters)
 - Long training time
 - Difficult to understand and interpret the model
-
-
 
 Notes from:  
 [Cracking the DS phone interview](https://medium.com/@bruceyanghy/crack-the-machine-learning-phone-interview-guide-9e4dc316f65b)
